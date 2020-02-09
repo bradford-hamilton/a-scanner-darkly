@@ -7,8 +7,28 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Version constant that represents the current build version
+const Version = "v.0.1.0"
+
+// Ports will be hydrated with it's value if a user runs the scan cmd with the
+// flag --ports (or -p)
+var Ports string
+
 // Initialize all additional commands, flags, etc
-func init() {}
+func init() {
+	// Attach all commands
+	rootCmd.AddCommand(scanCmd)
+	rootCmd.AddCommand(versionCmd)
+
+	// Hydrate scanCmd flag variables with the (if any) user input
+	scanCmd.Flags().StringVarP(
+		&Ports,
+		"ports",
+		"p",
+		"1-1024",
+		"choose port numbers to scan",
+	)
+}
 
 var rootCmd = &cobra.Command{
 	Use:   "asd",

@@ -1,0 +1,38 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+- binary: asd
+  env:
+  - CGO_ENABLED=0
+archives:
+- replacements:
+    darwin: Darwin
+    linux: Linux
+    amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+brews:
+  -
+    name: asd
+    github:
+      owner: bradford-hamilton
+      name: homebrew-asd
+    commit_author:
+      name: goreleaserbot
+      email: goreleaser@carlosbecker.com
+    folder: Formula
+    description: "CLI tool for communicating with asd to interact with messages"
+    dependencies:
+      - git
+      - zsh
+    install: |
+      bin.install "asd"

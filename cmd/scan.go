@@ -113,7 +113,7 @@ func worker(jobChan, resultsChan chan scanJob, target string) {
 
 		// Try to connecting to the address
 		addr := fmt.Sprintf("%s:%d", target, j.port)
-		conn, err := net.Dial("tcp", addr)
+		conn, err := net.DialTimeout("tcp", addr, time.Second*10)
 		if err != nil {
 			resultsChan <- scanJob{port: 0}
 			continue
